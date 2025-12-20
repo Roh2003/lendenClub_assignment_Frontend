@@ -21,4 +21,16 @@ export const adminService = {
     })
     return response.data
   },
+
+  async exportTransactionReport() {
+    const token = localStorage.getItem("adminToken")
+    const url = `${process.env.NEXT_PUBLIC_API_URL || "http://localhost:5000"}/api/admin/export/transactions`
+
+    return {
+      url,
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    }
+  },
 }

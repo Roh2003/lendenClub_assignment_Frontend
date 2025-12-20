@@ -11,6 +11,8 @@ import { TransactionTable } from "@/components/TransactionTable"
 import { LogOut, ShieldCheck } from "lucide-react"
 import { AdminTransaction } from "@/lib/transaction"
 import { useAdminTransactionStream } from "@/hooks/useAdminTransactionStream"
+import { exportTransactionReport } from "@/lib/exportReport"
+import { FileDown } from "lucide-react"
 
 interface User {
   id: number
@@ -27,6 +29,8 @@ export default function AdminDashboardPage() {
   const [transactions, setTransactions] = useState<AdminTransaction[]>([])
   const [loading, setLoading] = useState(false)
   const [sseEnabled, setSseEnabled] = useState(false)
+  const [exporting, setExporting] = useState(false)
+
 
 
   useEffect(() => {
@@ -74,6 +78,25 @@ export default function AdminDashboardPage() {
 
 
   useAdminTransactionStream(sseEnabled, handleAdminTransaction)
+
+  const handleExportReport = async () => {
+    try {
+      setExporting(true)
+      await exportTransactionReport("adminToken") 
+      toast({
+        title: "Report Generated",
+        description: "Transaction report opened in new tab",
+      })
+    } catch (error) {
+      toast({
+        title: "Export Failed",
+        description: "Unable to generate transaction report",
+        variant: "destructive",
+      })
+    } finally {
+      setExporting(false)
+    }
+  }
 
   const handleLogout = () => {
     localStorage.removeItem("adminToken")
@@ -157,10 +180,22 @@ export default function AdminDashboardPage() {
           {/* Latest Transactions (Audit Log) */}
           <Card>
             <CardHeader>
+              <div>
               <CardTitle>Latest Transactions (Audit Log)</CardTitle>
               <CardDescription>
                 All transactions are immutable and logged for audit purposes. This is a read-only view.
               </CardDescription>
+              </div>
+              <Button
+                size="sm"
+                variant="outline"
+                onClick={handleExportReport}
+                disabled={exporting || transactions.length === 0}
+              >
+                <FileDown className="h-4 w-4 mr-2" />
+                {exporting ? "Generating..." : "Export"}
+              </Button>
+          
             </CardHeader>
             <CardContent>
               <TransactionTable transactions={transactions} isAdmin />
