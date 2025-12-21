@@ -9,7 +9,7 @@ import { adminService } from "@/services/adminService"
 import { UsersTable } from "@/components/UsersTable"
 import { TransactionTable } from "@/components/TransactionTable"
 import { LogOut, ShieldCheck } from "lucide-react"
-import { AdminTransaction } from "@/lib/transaction"
+import { Transaction } from "@/lib/transaction"
 import { useAdminTransactionStream } from "@/hooks/useAdminTransactionStream"
 import { exportTransactionReport } from "@/lib/exportReport"
 import { FileDown } from "lucide-react"
@@ -26,7 +26,7 @@ export default function AdminDashboardPage() {
   const router = useRouter()
   const { toast } = useToast()
   const [users, setUsers] = useState<User[]>([])
-  const [transactions, setTransactions] = useState<AdminTransaction[]>([])
+  const [transactions, setTransactions] = useState<Transaction[]>([])
   const [loading, setLoading] = useState(false)
   const [sseEnabled, setSseEnabled] = useState(false)
   const [exporting, setExporting] = useState(false)
@@ -69,7 +69,7 @@ export default function AdminDashboardPage() {
   }
 
 
-  const handleAdminTransaction = useCallback((tx: AdminTransaction) => {
+  const handleTransactionStream = useCallback((tx: Transaction) => {
     setTransactions((prev) => {
       if (prev.some((t) => t.id === tx.id)) return prev
       return [tx, ...prev]
@@ -77,7 +77,7 @@ export default function AdminDashboardPage() {
   }, [])
 
 
-  useAdminTransactionStream(sseEnabled, handleAdminTransaction)
+  useAdminTransactionStream(sseEnabled, handleTransactionStream)
 
   const handleExportReport = async () => {
     try {

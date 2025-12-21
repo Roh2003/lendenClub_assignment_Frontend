@@ -1,15 +1,15 @@
-import { UITransaction } from "./transaction"
+import { Transaction } from "./transaction"
 
 
 export function buildTransactionHistory(
     transactions: any[],
     deposits: any[],
     currentClientId: string
-  ): UITransaction [] {
+  ): Transaction [] {
   
-    const mappedDeposits: UITransaction [] = deposits.map((d) => ({
+    const mappedDeposits: Transaction [] = deposits.map((d) => ({
       id: d.id,
-      type: "received", // deposit always adds money
+      type: "received", 
       counterpartyId: d.user.clientId,
       counterpartyName: "Self",
       amount: d.amount,
@@ -17,7 +17,7 @@ export function buildTransactionHistory(
       createdAt: d.createdAt,
     }))
   
-    const mappedTransfers: UITransaction [] = transactions.map((t) => {
+    const mappedTransfers: Transaction [] = transactions.map((t) => {
       const isSender = t.senderId === currentClientId
   
       return {

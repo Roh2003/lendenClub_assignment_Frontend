@@ -10,12 +10,12 @@ import {
 } from "@/components/ui/table"
 import { Badge } from "@/components/ui/badge"
 import { ArrowUpRight, ArrowDownLeft, ArrowUp, ArrowDown } from "lucide-react"
-import { UITransaction, AdminTransaction } from "@/lib/transaction"
+import { Transaction } from "@/lib/transaction"
 import { useState, useMemo } from "react"
 
 type TransactionTableProps =
-  | { isAdmin?: false; transactions: UITransaction[] }
-  | { isAdmin: true; transactions: AdminTransaction[] }
+  | { isAdmin?: false; transactions: Transaction[] }
+  | { isAdmin: true; transactions: Transaction[] }
 
 type SortDirection = "asc" | "desc"
 type SortKey =
@@ -64,7 +64,7 @@ export function TransactionTable(props: TransactionTableProps) {
   const sortedTransactions = useMemo(() => {
     let txCopy = [...originalTransactions]
 
-    function compare(a: any, b: any) {
+    function compare(a: Transaction, b: Transaction) {
       let result = 0
       switch (sortKey) {
         case "type":
@@ -136,6 +136,7 @@ export function TransactionTable(props: TransactionTableProps) {
 
   return (
     <div className="rounded-md border overflow-x-auto">
+
       <Table>
         <TableHeader>
           <TableRow>
@@ -202,7 +203,7 @@ export function TransactionTable(props: TransactionTableProps) {
           {sortedTransactions.map((transaction) => (
             <TableRow key={transaction.id}>
               {/* USER VIEW: Type */}
-              {!isAdmin && "type" in transaction && (
+              {!isAdmin && transaction.type && (
                 <TableCell>
                   <div className="flex items-center gap-2">
                     {transaction.type === "sent" ? (
@@ -221,7 +222,7 @@ export function TransactionTable(props: TransactionTableProps) {
               )}
 
               {/* ADMIN VIEW: Sender / Receiver */}
-              {isAdmin && "senderId" in transaction && (
+              {isAdmin && transaction.senderId && (
                 <>
                   <TableCell>
                     <div>
@@ -248,14 +249,17 @@ export function TransactionTable(props: TransactionTableProps) {
               )}
 
               {/* USER VIEW: Counterparty */}
-              {!isAdmin && "counterpartyId" in transaction && (
+              {!isAdmin && transaction.counterpartyId && (
                 <TableCell>
                   <div>
                     <div className="font-medium">
-                      {transaction.counterpartyName ?? "Unknown"}
+                      {transaction.counterpartyName
+                        ? transaction.counterpartyName
+                        : "Unknown"}
                     </div>
                     <div className="text-xs text-muted-foreground font-mono">
-                      {transaction.counterpartyId}
+                      {transaction.counterpartyId ??
+                        (transaction.senderId ?? "Unknown")}
                     </div>
                   </div>
                 </TableCell>

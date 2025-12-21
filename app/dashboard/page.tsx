@@ -1,6 +1,6 @@
 "use client"
 
-import { useEffect, useState } from "react"
+import { useCallback, useEffect, useState } from "react"
 import { useRouter } from "next/navigation"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
@@ -12,8 +12,9 @@ import { AddFundsModal } from "@/components/AddFundsModal"
 import { TransferForm } from "@/components/TransferForm"
 import { TransactionTable } from "@/components/TransactionTable"
 import { LogOut } from "lucide-react"
-import { UITransaction } from "@/lib/transaction"
+import { Transaction } from "@/lib/transaction"
 import { buildTransactionHistory } from "@/lib/buildTransactionHistory"
+import { useAdminTransactionStream } from "@/hooks/useAdminTransactionStream"
 
 interface User {
   id: number
@@ -29,10 +30,12 @@ export default function DashboardPage() {
   const router = useRouter()
   const { toast } = useToast()
   const [user, setUser] = useState<User | null>(null)
-  const [transactions, setTransactions] = useState<UITransaction []>([])
+  const [transactions, setTransactions] = useState<Transaction []>([])
   const [loading, setLoading] = useState(true)
   const [showAddFunds, setShowAddFunds] = useState(false)
   const [clientId, setClientId] = useState("")
+  const [sseEnabled, setSseEnabled] = useState(false)
+
 
   useEffect(() => {
     const token = localStorage.getItem("token")
@@ -40,8 +43,9 @@ export default function DashboardPage() {
       router.push("/login")
       return
     }
-
+    setSseEnabled(true)
     fetchUserData()
+
   }, [])
 
   const fetchUserData = async () => {
@@ -124,6 +128,19 @@ export default function DashboardPage() {
     }
   }
 
+  
+  const handleTransactionStream = useCallback((tx: Transaction) => {
+    setTransactions((prev) => {
+      if (prev.some((t) => t.id === tx.id)) return prev
+      return [tx, ...prev]
+    })
+  }, [])
+
+
+  useAdminTransactionStream(sseEnabled, handleTransactionStream)
+
+
+  console.log("transactions", transactions)
 
 
   const handleLogout = () => {
