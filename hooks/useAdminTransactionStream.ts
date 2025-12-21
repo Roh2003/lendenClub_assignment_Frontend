@@ -29,7 +29,7 @@ export function useAdminTransactionStream(
     }
 
     eventSource.onerror = (err) => {
-      console.error("SSE ERROR", err)
+      console.log("SSE ERROR", err)
       eventSource.close()
     }
 
