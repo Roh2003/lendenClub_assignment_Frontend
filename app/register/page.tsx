@@ -14,7 +14,6 @@ import { authService } from "@/services/authService"
 import { Eye, EyeOff } from "lucide-react"
 
 function validatePassword(password: string): string | null {
-  // At least 8 characters, at least 1 uppercase, 1 lowercase, 1 number, 1 special character
   const lengthOk = password.length >= 8
   const uppercaseOk = /[A-Z]/.test(password)
   const lowercaseOk = /[a-z]/.test(password)
@@ -58,9 +57,10 @@ export default function RegisterPage() {
 
       router.push("/login")
     } catch (error: any) {
+      console.log("Registration error:", error)
       toast({
         title: "Registration Failed",
-        description: error.message || "Something went wrong",
+        description: error.data.error || "Something went wrong",
         variant: "destructive",
       })
     } finally {
