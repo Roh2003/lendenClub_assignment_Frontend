@@ -169,7 +169,7 @@ export default function AdminDashboardPage() {
             <CardHeader>
               <CardTitle>Users Overview</CardTitle>
               <CardDescription>
-                View all registered users and their account balances. User IDs can be copied for testing transfers.
+                View all registered users and their account balances.
               </CardDescription>
             </CardHeader>
             <CardContent>
