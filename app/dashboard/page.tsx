@@ -172,7 +172,7 @@ export default function DashboardPage() {
                 LC
               </div>
               <div>
-                <h1 className="text-xl font-bold text-foreground">LenDenClub</h1>
+                <h1 className="text-xl font-bold text-foreground">NexaPay</h1>
                 <p className="text-xs text-muted-foreground">User Dashboard</p>
               </div>
             </div>
@@ -197,7 +197,7 @@ export default function DashboardPage() {
           <Card>
             <CardHeader>
               <CardTitle>Transfer Funds</CardTitle>
-              <CardDescription>Send money to other LenDenClub users using their Client ID</CardDescription>
+              <CardDescription>Send money to other NexaPay users using their Client ID</CardDescription>
             </CardHeader>
             <CardContent>
               <TransferForm onTransfer={handleTransfer} currentBalance={user.balance} />

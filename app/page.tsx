@@ -15,7 +15,7 @@ export default function LandingPage() {
                 LC
               </div>
               <div>
-                <h1 className="text-xl font-bold text-foreground">LenDenClub</h1>
+                <h1 className="text-xl font-bold text-foreground">NexaPay</h1>
                 <p className="text-xs text-muted-foreground">P2P Lending Platform</p>
               </div>
             </div>
@@ -30,7 +30,7 @@ export default function LandingPage() {
             Empowering peer-to-peer financial freedom
           </h2>
           <p className="text-lg text-muted-foreground text-pretty">
-            LenDenClub simplifies peer-to-peer transactions with transparency, security, and trust.
+            NexaPay simplifies peer-to-peer transactions with transparency, security, and trust.
           </p>
         </div>
 
@@ -84,7 +84,7 @@ export default function LandingPage() {
               </div>
               <CardTitle className="text-xl">Create New Account</CardTitle>
               <CardDescription className="text-sm leading-relaxed">
-                Join LenDenClub and start peer-to-peer transfers
+                Join NexaPay and start peer-to-peer transfers
               </CardDescription>
             </CardHeader>
             <CardContent>
@@ -99,7 +99,7 @@ export default function LandingPage() {
 
         {/* Features */}
         <div className="mt-24 text-center">
-          <h3 className="text-2xl font-bold text-foreground mb-8">Why Choose LenDenClub?</h3>
+          <h3 className="text-2xl font-bold text-foreground mb-8">Why Choose NexaPay?</h3>
           <div className="grid md:grid-cols-3 gap-8 max-w-4xl mx-auto">
             <div>
               <div className="text-4xl mb-2">🔒</div>

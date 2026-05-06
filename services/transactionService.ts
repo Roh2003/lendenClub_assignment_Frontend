@@ -1,5 +1,6 @@
 // Transaction Service - Handles all transaction operations
 import { api } from "@/lib/api"
+import { exportTransactionReport } from "@/lib/exportReport"
 
 export const transactionService = {
   // Add funds to user wallet
@@ -24,4 +25,17 @@ export const transactionService = {
     const response = await api.get("/api/transactions/history")
     return response.data
   },
+
+  async exportTransactionReport(token: string) {
+    console.log("exporting report with token:", token)
+    const response = await api.get("/api/admin/export/transactions", {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    })
+    console.log("response", response)
+    return response.data
+  }
+
+  
 }

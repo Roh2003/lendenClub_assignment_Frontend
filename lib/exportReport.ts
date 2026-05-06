@@ -31,7 +31,7 @@ export const exportTransactionReport = async (
         Authorization: `Bearer ${token}`,
       },
     })
-    console.debug("Fetch response status:", response.status);
+    console.log("Fetch response status:", response);
 
     if (!response.ok) {
       console.error("Failed to export report, status:", response.status);

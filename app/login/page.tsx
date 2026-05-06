@@ -70,7 +70,7 @@ export default function LoginPage() {
             <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-primary text-primary-foreground font-bold text-lg">
               LC
             </div>
-            <span className="text-xl font-bold text-foreground">LenDenClub</span>
+            <span className="text-xl font-bold text-foreground">NexaPay</span>
           </Link>
         </div>
 

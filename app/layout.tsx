@@ -9,25 +9,25 @@ const _geist = Geist({ subsets: ["latin"] })
 const _geistMono = Geist_Mono({ subsets: ["latin"] })
 
 export const metadata: Metadata = {
-  title: "LenDenClub - P2P Lending Platform",
+  title: "NexaPay - P2P Lending Platform",
   description: "Empowering peer-to-peer financial freedom",
   generator: "v0.app",
   icons: {
     icon: [
       {
-        url: "/lendenclub-logo-dark.png",
+        url: "/nexapay-logo-dark.png",
         media: "(prefers-color-scheme: light)",
       },
       {
-        url: "/lendenclub-logo-dark.png",
+        url: "/nexapay-logo-dark.png",
         media: "(prefers-color-scheme: dark)",
       },
       {
-        url: "/lendenclub-logo-dark.png",
+        url: "/nexapay-logo-dark.png",
         type: "image/svg+xml",
       },
     ],
-    apple: "/lendenclub-logo-dark.png",
+    apple: "/nexapay-logo-dark.png",
   },
 }
 

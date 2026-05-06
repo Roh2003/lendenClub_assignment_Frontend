@@ -125,7 +125,7 @@ export default function AdminDashboardPage() {
                 <ShieldCheck className="h-6 w-6" />
               </div>
               <div>
-                <h1 className="text-xl font-bold text-foreground">Admin Panel - LenDenClub</h1>
+                <h1 className="text-xl font-bold text-foreground">Admin Panel - NexaPay</h1>
                 <p className="text-xs text-muted-foreground">Monitor & Manage Platform</p>
               </div>
             </div>

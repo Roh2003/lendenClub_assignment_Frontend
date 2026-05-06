@@ -43,7 +43,7 @@ export function AddFundsModal({ open, onClose, onAddFunds }: AddFundsModalProps)
       <DialogContent>
         <DialogHeader>
           <DialogTitle>Add Funds to Wallet</DialogTitle>
-          <DialogDescription>Add money to your LenDenClub wallet to start making transfers</DialogDescription>
+          <DialogDescription>Add money to your NexaPay wallet to start making transfers</DialogDescription>
         </DialogHeader>
         <form onSubmit={handleSubmit} className="space-y-4 mt-4">
           <div className="space-y-2">
