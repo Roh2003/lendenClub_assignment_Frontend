@@ -2,7 +2,7 @@
 
 import type React from "react"
 
-import { useState } from "react"
+import { useState, useEffect } from "react"
 import { useRouter } from "next/navigation"
 import Link from "next/link"
 import { Button } from "@/components/ui/button"
@@ -32,6 +32,9 @@ export default function RegisterPage() {
   const { toast } = useToast()
   const [name, setName] = useState("")
   const [email, setEmail] = useState("")
+  const [username, setUsername] = useState("")
+  const [usernameAvailable, setUsernameAvailable] = useState<boolean | null>(null)
+  const [checkingUsername, setCheckingUsername] = useState(false)
   const [password, setPassword] = useState("")
   const [loading, setLoading] = useState(false)
   const [passwordError, setPasswordError] = useState<string | null>(null)
@@ -48,7 +51,7 @@ export default function RegisterPage() {
     setLoading(true)
 
     try {
-      await authService.register(name, email, password)
+      await authService.register(name, email, username, password)
 
       toast({
         title: "Account Created Successfully",
@@ -67,6 +70,32 @@ export default function RegisterPage() {
       setLoading(false)
     }
   }
+
+  // debounced username availability check
+  useEffect(() => {
+    const controller = new AbortController()
+    if (!username) {
+      setUsernameAvailable(null)
+      return
+    }
+
+    setCheckingUsername(true)
+    const id = setTimeout(async () => {
+      try {
+        const data = await authService.checkUsername(username)
+        setUsernameAvailable(data?.data?.available ?? null)
+      } catch (err) {
+        setUsernameAvailable(null)
+      } finally {
+        setCheckingUsername(false)
+      }
+    }, 450)
+
+    return () => {
+      controller.abort()
+      clearTimeout(id)
+    }
+  }, [username])
 
   const handlePasswordChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setPassword(e.target.value)
@@ -123,6 +152,22 @@ export default function RegisterPage() {
                 />
               </div>
               <div className="space-y-2">
+                <Label htmlFor="username">Username</Label>
+                <Input
+                  id="username"
+                  type="text"
+                  placeholder="roh28"
+                  value={username}
+                  onChange={(e) => setUsername(e.target.value)}
+                  required
+                />
+                <div className="text-xs mt-1">
+                  {checkingUsername && <span className="text-muted-foreground">Checking...</span>}
+                  {!checkingUsername && usernameAvailable === true && <span className="text-green-600">Username available</span>}
+                  {!checkingUsername && usernameAvailable === false && <span className="text-red-600">Username already taken</span>}
+                </div>
+              </div>
+              <div className="space-y-2">
                 <Label htmlFor="password">Password</Label>
                 <div className="relative">
                   <Input
@@ -153,7 +198,7 @@ export default function RegisterPage() {
                   <div className="text-xs text-red-500">{passwordError}</div>
                 )}
               </div>
-              <Button type="submit" className="w-full" size="lg" disabled={loading}>
+              <Button type="submit" className="w-full" size="lg" disabled={loading || usernameAvailable === false}>
                 {loading ? "Creating Account..." : "Create Account"}
               </Button>
             </form>

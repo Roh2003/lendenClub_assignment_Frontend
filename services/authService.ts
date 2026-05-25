@@ -5,6 +5,7 @@ interface User {
   id: number
   name: string
   email: string
+  username: string
   balance: number
   role: string
   createdAt: string
@@ -33,10 +34,11 @@ interface AdminLoginResponse {
 
 export const authService = {
   // User Registration
-  async register(name: string, email: string, password: string) {
+  async register(name: string, email: string, username: string, password: string) {
     const response = await api.post("/api/auth/register", {
       name,
       email,
+      username,
       password,
     })
     return response.data
@@ -48,6 +50,11 @@ export const authService = {
       email,
       password,
     })
+    return response.data
+  },
+
+  async checkUsername(username: string) {
+    const response = await api.get(`/api/auth/check-username?username=${encodeURIComponent(username)}`)
     return response.data
   },
 
